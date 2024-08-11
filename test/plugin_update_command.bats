@@ -83,34 +83,34 @@ teardown() {
 @test "asdf plugin-update should not remove plugin versions" {
   run asdf install dummy 1.1
   [ "$status" -eq 0 ]
-  [ $(cat $ASDF_DIR/installs/dummy/1.1/version) = "1.1" ]
+  [ "$(cat "$ASDF_DIR/installs/dummy/1.1/version")" = "1.1" ]
   run asdf plugin-update dummy
   [ "$status" -eq 0 ]
-  [ -f $ASDF_DIR/installs/dummy/1.1/version ]
+  [ -f "$ASDF_DIR/installs/dummy/1.1/version" ]
   run asdf plugin-update --all
   [ "$status" -eq 0 ]
-  [ -f $ASDF_DIR/installs/dummy/1.1/version ]
+  [ -f "$ASDF_DIR/installs/dummy/1.1/version" ]
 }
 
 @test "asdf plugin-update should not remove plugins" {
   # dummy plugin is already installed
   run asdf plugin-update dummy
   [ "$status" -eq 0 ]
-  [ -d $ASDF_DIR/plugins/dummy ]
+  [ -d "$ASDF_DIR/plugins/dummy" ]
   run asdf plugin-update --all
   [ "$status" -eq 0 ]
-  [ -d $ASDF_DIR/plugins/dummy ]
+  [ -d "$ASDF_DIR/plugins/dummy" ]
 }
 
 @test "asdf plugin-update should not remove shims" {
   run asdf install dummy 1.1
-  [ -f $ASDF_DIR/shims/dummy ]
+  [ -f "$ASDF_DIR/shims/dummy" ]
   run asdf plugin-update dummy
   [ "$status" -eq 0 ]
-  [ -f $ASDF_DIR/shims/dummy ]
+  [ -f "$ASDF_DIR/shims/dummy" ]
   run asdf plugin-update --all
   [ "$status" -eq 0 ]
-  [ -f $ASDF_DIR/shims/dummy ]
+  [ -f "$ASDF_DIR/shims/dummy" ]
 }
 
 @test "asdf plugin-update done for all plugins" {
@@ -157,7 +157,7 @@ teardown() {
 }
 
 @test "asdf plugin-update executes configured pre hook (generic)" {
-  cat >$HOME/.asdfrc <<-'EOM'
+  cat >"$HOME/.asdfrc" <<-'EOM'
 pre_asdf_plugin_update = echo UPDATE ${@}
 EOM
 
@@ -169,11 +169,11 @@ EOM
   new_ref="$(git --git-dir "$plugin_path/.git" --work-tree "$plugin_path" rev-parse --short HEAD)"
 
   local expected_output="plugin updated path=${plugin_path} old git-ref=${old_ref} new git-ref=${new_ref}"
-  [[ "$output" = "UPDATE dummy"*"${expected_output}" ]]
+  [[ "$output" = *"UPDATE dummy"*"${expected_output}" ]]
 }
 
 @test "asdf plugin-update executes configured pre hook (specific)" {
-  cat >$HOME/.asdfrc <<-'EOM'
+  cat >"$HOME/.asdfrc" <<-'EOM'
 pre_asdf_plugin_update_dummy = echo UPDATE
 EOM
 
@@ -185,11 +185,11 @@ EOM
   new_ref="$(git --git-dir "$plugin_path/.git" --work-tree "$plugin_path" rev-parse --short HEAD)"
 
   local expected_output="plugin updated path=${plugin_path} old git-ref=${old_ref} new git-ref=${new_ref}"
-  [[ "$output" = "UPDATE"*"${expected_output}" ]]
+  [[ "$output" = *"UPDATE"*"${expected_output}" ]]
 }
 
 @test "asdf plugin-update executes configured post hook (generic)" {
-  cat >$HOME/.asdfrc <<-'EOM'
+  cat >"$HOME/.asdfrc" <<-'EOM'
 post_asdf_plugin_update = echo UPDATE ${@}
 EOM
 
@@ -206,7 +206,7 @@ UPDATE dummy"
 }
 
 @test "asdf plugin-update executes configured post hook (specific)" {
-  cat >$HOME/.asdfrc <<-'EOM'
+  cat >"$HOME/.asdfrc" <<-'EOM'
 post_asdf_plugin_update_dummy = echo UPDATE
 EOM
 
@@ -220,4 +220,13 @@ EOM
   local expected_output="plugin updated path=${plugin_path} old git-ref=${old_ref} new git-ref=${new_ref}
 UPDATE"
   [[ "$output" = *"${expected_output}" ]]
+}
+
+@test "asdf plugin-update prints the location of plugin (specific)" {
+  local plugin_path
+  plugin_path="$(get_plugin_path dummy)"
+  run asdf plugin-update dummy
+
+  local expected_output="Location of dummy plugin: $plugin_path"
+  [[ "$output" == *"$expected_output"* ]]
 }

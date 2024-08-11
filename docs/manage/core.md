@@ -8,7 +8,7 @@ Covered in the [Getting Started](/guide/getting-started.md) guide.
 
 ## Exec
 
-```shell:no-line-numbers
+```shell
 asdf exec <command> [args...]
 ```
 
@@ -18,7 +18,7 @@ Executes the command shim for the current version.
 
 ## Env
 
-```shell:no-line-numbers
+```shell
 asdf env <command> [util]
 ```
 
@@ -26,7 +26,7 @@ asdf env <command> [util]
 
 ## Info
 
-```shell:no-line-numbers
+```shell
 asdf info
 ```
 
@@ -34,7 +34,7 @@ A helper command to print the OS, Shell and `asdf` debug information. Share this
 
 ## Reshim
 
-```shell:no-line-numbers
+```shell
 asdf reshim <name> <version>
 ```
 
@@ -42,7 +42,7 @@ This recreates the shims for the current version of a package. By default, shims
 
 ## Shim-versions
 
-```shell:no-line-numbers
+```shell
 asdf shim-versions <command>
 ```
 
@@ -50,14 +50,14 @@ Lists the plugins and versions that provide shims for a command.
 
 As an example, [Node.js](https://nodejs.org/) ships with two executables, `node` and `npm`. When many versions of the tools are installed with [`asdf-nodejs`](https://github.com/asdf-vm/asdf-nodejs/) `shim-versions` can return:
 
-```shell:no-line-numbers
+```shell
 ➜ asdf shim-versions node
 nodejs 14.8.0
 nodejs 14.17.3
 nodejs 16.5.0
 ```
 
-```shell:no-line-numbers
+```shell
 ➜ asdf shim-versions npm
 nodejs 14.8.0
 nodejs 14.17.3
@@ -83,20 +83,20 @@ To uninstall `asdf` follow these steps:
 1. In your `~/.bashrc` remove the lines that source `asdf.sh` and the completions:
 
 ```shell
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
 ```
 
 2. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -106,20 +106,45 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 1. In your `~/.bash_profile` remove the lines that source `asdf.sh` and the completions:
 
 ```shell
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
 ```
 
 2. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
+```
+
+:::
+
+::: details Bash & Homebrew
+
+1. In your `~/.bashrc` remove the lines that source `asdf.sh` and the completions:
+
+```shell
+. $(brew --prefix asdf)/libexec/asdf.sh
+. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash
+```
+
+Completions may have been [configured as per Homebrew's instructions](https://docs.brew.sh/Shell-Completion#configuring-completions-in-bash) so follow their guide to find out what to remove.
+
+2. Uninstall with your package manager:
+
+```shell
+brew uninstall asdf --force
+```
+
+3. Run this command to remove all `asdf` config files:
+
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -139,14 +164,14 @@ Completions may have been [configured as per Homebrew's instructions](https://do
 
 2. Uninstall with your package manager:
 
-```shell:no-line-numbers
+```shell
 brew uninstall asdf --force
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -161,20 +186,20 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 2. Uninstall with your package manager:
 
-```shell:no-line-numbers
+```shell
 pacman -Rs asdf-vm
 ```
 
 3. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 4. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -189,20 +214,20 @@ source ~/.asdf/asdf.fish
 
 and remove completions with this command:
 
-```shell:no-line-numbers
+```shell
 rm -rf ~/.config/fish/completions/asdf.fish
 ```
 
 2. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf (string join : -- $ASDF_DATA_DIR $HOME/.asdf)
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -217,14 +242,14 @@ source "(brew --prefix asdf)"/libexec/asdf.fish
 
 2. Uninstall with your package manager:
 
-```shell:no-line-numbers
+```shell
 brew uninstall asdf --force
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -239,20 +264,20 @@ source /opt/asdf-vm/asdf.fish
 
 2. Uninstall with your package manager:
 
-```shell:no-line-numbers
+```shell
 pacman -Rs asdf-vm
 ```
 
 3. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf (string join : -- $ASDF_DATA_DIR $HOME/.asdf)
 ```
 
 4. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -268,20 +293,20 @@ set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
 
 and uninstall the `asdf` module with this command:
 
-```shell:no-line-numbers
+```shell
 rm -f ~/.config/elvish/lib/asdf.elv
 ```
 
 2. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
+```shell
 if (!=s $E:ASDF_DATA_DIR "") { rm -rf $E:ASDF_DATA_DIR } else { rm -rf ~/.asdf }
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -297,20 +322,20 @@ set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
 
 and uninstall the `asdf` module with this command:
 
-```shell:no-line-numbers
+```shell
 rm -f ~/.config/elvish/lib/asdf.elv
 ```
 
 2. Uninstall with your package manager:
 
-```shell:no-line-numbers
+```shell
 brew uninstall asdf --force
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -326,26 +351,26 @@ set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
 
 and uninstall the `asdf` module with this command:
 
-```shell:no-line-numbers
+```shell
 rm -f ~/.config/elvish/lib/asdf.elv
 ```
 
 2. Uninstall with your package manager:
 
-```shell:no-line-numbers
+```shell
 pacman -Rs asdf-vm
 ```
 
 3. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
+```shell
 if (!=s $E:ASDF_DATA_DIR "") { rm -rf $E:ASDF_DATA_DIR } else { rm -rf ~/.asdf }
 ```
 
 4. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -355,7 +380,7 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 1. In your `~/.zshrc` remove the lines that source `asdf.sh` and completions:
 
 ```shell
-. $HOME/.asdf/asdf.sh
+. "$HOME/.asdf/asdf.sh"
 # ...
 fpath=(${ASDF_DIR}/completions $fpath)
 autoload -Uz compinit
@@ -366,14 +391,14 @@ compinit
 
 2. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -388,14 +413,14 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 2. Uninstall with your package manager:
 
-```shell:no-line-numbers
+```shell
 brew uninstall asdf --force && brew autoremove
 ```
 
 3. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -410,20 +435,20 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 2. Uninstall with your package manager:
 
-```shell:no-line-numbers
+```shell
 pacman -Rs asdf-vm
 ```
 
 3. Remove the `$HOME/.asdf` dir:
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 4. Run this command to remove all `asdf` config files:
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::

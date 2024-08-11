@@ -8,7 +8,7 @@
 
 ## Exec
 
-```shell:no-line-numbers
+```shell
 asdf exec <command> [args...]
 ```
 
@@ -18,7 +18,7 @@ asdf exec <command> [args...]
 
 ## Env
 
-```shell:no-line-numbers
+```shell
 asdf env <command> [util]
 ```
 
@@ -26,7 +26,7 @@ asdf env <command> [util]
 
 ## Info
 
-```shell:no-line-numbers
+```shell
 asdf info
 ```
 
@@ -34,7 +34,7 @@ asdf info
 
 ## Reshim
 
-```shell:no-line-numbers
+```shell
 asdf reshim <name> <version>
 ```
 
@@ -42,7 +42,7 @@ asdf reshim <name> <version>
 
 ## Shim-versions
 
-```shell:no-line-numbers
+```shell
 asdf shim-versions <command>
 ```
 
@@ -50,14 +50,14 @@ asdf shim-versions <command>
 
 例如，[Node.js](https://nodejs.org/) 附带了两个可执行程序，`node` 和 `npm`。当使用 [`asdf-nodejs`](https://github.com/asdf-vm/asdf-nodejs/)`插件安装了这些工具的很多版本时，执行`shim-versions` 命令会返回：
 
-```shell:no-line-numbers
+```shell
 ➜ asdf shim-versions node
 nodejs 14.8.0
 nodejs 14.17.3
 nodejs 16.5.0
 ```
 
-```shell:no-line-numbers
+```shell
 ➜ asdf shim-versions npm
 nodejs 14.8.0
 nodejs 14.17.3
@@ -83,20 +83,20 @@ nodejs 16.5.0
 1. 在 `~/.bashrc` 配置文件中移除生效 `asdf.sh` 和补全功能的行：
 
 ```shell
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
 ```
 
 2. 移除 `$HOME/.asdf` 目录：
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -106,20 +106,45 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 1. 在 `~/.bash_profile` 配置文件中移除生效 `asdf.sh` 和补全功能的行：
 
 ```shell
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
 ```
 
 2. 移除 `$HOME/.asdf` 目录：
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
+```
+
+:::
+
+::: details Bash & Homebrew
+
+1. 在 `~/.bashrc` 配置文件中移除生效 `asdf.sh` 和补全功能的行：
+
+```shell
+. $(brew --prefix asdf)/libexec/asdf.sh
+. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash
+```
+
+补全功能可能已经如 [Homebrew 的指南](https://docs.brew.sh/Shell-Completion#configuring-completions-in-bash) 那样配置了，因此请按照他们的指南找出要删除的内容。
+
+2. 用包管理器卸载：
+
+```shell
+brew uninstall asdf --force
+```
+
+3. 执行以下命令移除 `asdf` 所有配置文件：
+
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -139,14 +164,14 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 2. 用包管理器卸载：
 
-```shell:no-line-numbers
+```shell
 brew uninstall asdf --force
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -161,20 +186,20 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 2. 用包管理器卸载：
 
-```shell:no-line-numbers
+```shell
 pacman -Rs asdf-vm
 ```
 
 3. 移除 `$HOME/.asdf` 目录：
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 4. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -189,20 +214,20 @@ source ~/.asdf/asdf.fish
 
 以及使用以下命令移除补全功能：
 
-```shell:no-line-numbers
+```shell
 rm -rf ~/.config/fish/completions/asdf.fish
 ```
 
 2. 移除 `$HOME/.asdf` 目录：
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf (string join : -- $ASDF_DATA_DIR $HOME/.asdf)
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -217,14 +242,14 @@ source "(brew --prefix asdf)"/libexec/asdf.fish
 
 2. 用包管理器卸载：
 
-```shell:no-line-numbers
+```shell
 brew uninstall asdf --force
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -239,20 +264,20 @@ source /opt/asdf-vm/asdf.fish
 
 2. 用包管理器卸载：
 
-```shell:no-line-numbers
+```shell
 pacman -Rs asdf-vm
 ```
 
 3. 移除 `$HOME/.asdf` 目录：
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf (string join : -- $ASDF_DATA_DIR $HOME/.asdf)
 ```
 
 4. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -263,25 +288,25 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 ```shell
 use asdf _asdf; var asdf~ = $_asdf:asdf~
-edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
+set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
 ```
 
 以及使用以下命令卸载 `asdf` 模块：
 
-```shell:no-line-numbers
+```shell
 rm -f ~/.config/elvish/lib/asdf.elv
 ```
 
 2. 移除 `$HOME/.asdf` 目录：
 
-```shell:no-line-numbers
+```shell
 if (!=s $E:ASDF_DATA_DIR "") { rm -rf $E:ASDF_DATA_DIR } else { rm -rf ~/.asdf }
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -292,25 +317,25 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 ```shell
 use asdf _asdf; var asdf~ = $_asdf:asdf~
-edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
+set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
 ```
 
 以及使用以下命令卸载 `asdf` 模块：
 
-```shell:no-line-numbers
+```shell
 rm -f ~/.config/elvish/lib/asdf.elv
 ```
 
 2. 用包管理器卸载：
 
-```shell:no-line-numbers
+```shell
 brew uninstall asdf --force
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -321,31 +346,31 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 ```shell
 use asdf _asdf; var asdf~ = $_asdf:asdf~
-edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
+set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~
 ```
 
 以及使用以下命令卸载 `asdf` 模块：
 
-```shell:no-line-numbers
+```shell
 rm -f ~/.config/elvish/lib/asdf.elv
 ```
 
 2. 用包管理器卸载：
 
-```shell:no-line-numbers
+```shell
 pacman -Rs asdf-vm
 ```
 
 3. 移除 `$HOME/.asdf` 目录：
 
-```shell:no-line-numbers
+```shell
 if (!=s $E:ASDF_DATA_DIR "") { rm -rf $E:ASDF_DATA_DIR } else { rm -rf ~/.asdf }
 ```
 
 4. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -355,7 +380,7 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 1. 在 `~/.zshrc` 配置文件中移除生效 `asdf.sh` 和补全功能的行：
 
 ```shell
-. $HOME/.asdf/asdf.sh
+. "$HOME/.asdf/asdf.sh"
 # ...
 fpath=(${ASDF_DIR}/completions $fpath)
 autoload -Uz compinit
@@ -366,14 +391,14 @@ compinit
 
 2. 移除 `$HOME/.asdf` 目录：
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -388,14 +413,14 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 2. 用包管理器卸载：
 
-```shell:no-line-numbers
+```shell
 brew uninstall asdf --force && brew autoremove
 ```
 
 3. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::
@@ -410,20 +435,20 @@ rm -rf $HOME/.tool-versions $HOME/.asdfrc
 
 2. 用包管理器卸载：
 
-```shell:no-line-numbers
+```shell
 pacman -Rs asdf-vm
 ```
 
 3. 移除 `$HOME/.asdf` 目录
 
-```shell:no-line-numbers
-rm -rf ${ASDF_DATA_DIR:-$HOME/.asdf}
+```shell
+rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
 ```
 
 4. 执行以下命令移除 `asdf` 所有配置文件：
 
-```shell:no-line-numbers
-rm -rf $HOME/.tool-versions $HOME/.asdfrc
+```shell
+rm -rf "$HOME/.tool-versions" "$HOME/.asdfrc"
 ```
 
 :::

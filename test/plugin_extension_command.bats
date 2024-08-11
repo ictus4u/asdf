@@ -1,4 +1,5 @@
 #!/usr/bin/env bats
+# shellcheck disable=SC2016
 
 load test_helpers
 
@@ -23,13 +24,13 @@ teardown() {
   run asdf help
   [ "$status" -eq 0 ]
   echo "$output" | grep "PLUGIN dummy" # should present plugin section
-  listed_cmds=$(echo "$output" | grep "asdf dummy" | wc -l)
+  listed_cmds=$(echo "$output" | grep -c "asdf dummy")
   [ "$listed_cmds" -eq 3 ]
-  echo "$output" | grep "asdf dummy foo bar" # should present commands without hipens
+  echo "$output" | grep "asdf dummy foo bar" # should present commands without hyphens
 }
 
 @test "asdf help shows extension commands for plugin with hyphens in the name" {
-  cd $PROJECT_DIR
+  cd "$PROJECT_DIR"
 
   plugin_name=dummy-hyphenated
   install_mock_plugin $plugin_name
@@ -43,7 +44,6 @@ teardown() {
   run asdf help
   [ "$status" -eq 0 ]
   [[ "$output" == *"PLUGIN $plugin_name"* ]]
-  # shellcheck disable=SC2154
   listed_cmds=$(grep -c "asdf $plugin_name" <<<"${output}")
   [[ $listed_cmds -eq 3 ]]
   [[ "$output" == *"asdf $plugin_name foo"* ]]
@@ -54,7 +54,7 @@ teardown() {
   plugin_path="$(get_plugin_path dummy)"
 
   # this plugin defines a new `asdf dummy foo` command
-  cat <<'EOF' > "$plugin_path/lib/commands/command-foo.bash"
+  cat <<'EOF' >"$plugin_path/lib/commands/command-foo.bash"
 #!/usr/bin/env bash
 echo this is an executable $*
 EOF
@@ -71,7 +71,7 @@ EOF
   plugin_path="$(get_plugin_path dummy)"
 
   # this plugin defines a new `asdf dummy foo` command
-  echo 'echo sourced script has asdf utils $(get_plugin_path dummy) $*' > "$plugin_path/lib/commands/command-foo.bash"
+  echo 'echo sourced script has asdf utils $(get_plugin_path dummy) $*' >"$plugin_path/lib/commands/command-foo.bash"
 
   expected="sourced script has asdf utils $plugin_path bar"
 
@@ -84,7 +84,7 @@ EOF
   plugin_path="$(get_plugin_path dummy)"
 
   # this plugin defines a new `asdf dummy` command
-  cat <<'EOF' > "$plugin_path/lib/commands/command.bash"
+  cat <<'EOF' >"$plugin_path/lib/commands/command.bash"
 #!/usr/bin/env bash
 echo hello
 EOF
@@ -101,7 +101,7 @@ EOF
   plugin_path="$(get_plugin_path dummy)"
 
   # this plugin defines a new `asdf dummy` command
-  cat <<'EOF' > "$plugin_path/lib/commands/command.bash"
+  cat <<'EOF' >"$plugin_path/lib/commands/command.bash"
 #!/usr/bin/env bash
 echo hello $*
 EOF

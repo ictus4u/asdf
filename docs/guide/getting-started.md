@@ -11,52 +11,64 @@
 
 ## 1. Install Dependencies
 
-**Linux**:
+asdf primarily requires `git` & `curl`. Here is a _non-exhaustive_ list of commands to run for _your_ package manager (some might automatically install these tools in later steps).
+
+| OS    | Package Manager | Command                            |
+| ----- | --------------- | ---------------------------------- |
+| linux | Aptitude        | `apt install curl git`             |
+| linux | DNF             | `dnf install curl git`             |
+| linux | Pacman          | `pacman -S curl git`               |
+| linux | Zypper          | `zypper install curl git`          |
+| macOS | Homebrew        | `brew install coreutils curl git`  |
+| macOS | Spack           | `spack install coreutils curl git` |
 
 ::: tip Note
+
 `sudo` may be required depending on your system configuration.
+
 :::
-
-| Package Manager | Command                   |
-| --------------- | ------------------------- |
-| Aptitude        | `apt install curl git`    |
-| DNF             | `dnf install curl git`    |
-| Pacman          | `pacman -S curl git`      |
-| Zypper          | `zypper install curl git` |
-
-**macOS**:
-
-| Package Manager | Command                                                   |
-| --------------- | --------------------------------------------------------- |
-| Homebrew        | Dependencies will be automatically installed by Homebrew. |
-| Spack           | `spack install coreutils curl git`                        |
 
 ## 2. Download asdf
 
-We recommend using Git, though there are other platform specific methods:
+### Official Download
+
+<!-- x-release-please-start-version -->
+
+
+```shell
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+
+```
+
+<!-- x-release-please-end -->
+
+### Community Supported Download Methods
+
+We highly recommend using the official `git` method.
 
 | Method   | Command                                                                                                                                                             |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Git      | `git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.9.0`                                                                                             |
 | Homebrew | `brew install asdf`                                                                                                                                                 |
 | Pacman   | `git clone https://aur.archlinux.org/asdf-vm.git && cd asdf-vm && makepkg -si` or use your preferred [AUR helper](https://wiki.archlinux.org/index.php/AUR_helpers) |
 
 ## 3. Install asdf
 
-There are many different combinations of Shells, OSs & Installation methods all of which affect the configuration here. Expand the selection below that best matches your system:
+There are many different combinations of Shells, OSs & Installation methods all of which affect the configuration here. Expand the selection below that best matches your system.
+
+**macOS users, be sure to read the warning about `path_helper` at the end of this section.**
 
 ::: details Bash & Git
 
 Add the following to `~/.bashrc`:
 
 ```shell
-. $HOME/.asdf/asdf.sh
+. "$HOME/.asdf/asdf.sh"
 ```
 
 Completions must be configured by adding the following to your `.bashrc`:
 
 ```shell
-. $HOME/.asdf/completions/asdf.bash
+. "$HOME/.asdf/completions/asdf.bash"
 ```
 
 :::
@@ -68,13 +80,29 @@ If using **macOS Catalina or newer**, the default shell has changed to **ZSH**. 
 Add the following to `~/.bash_profile`:
 
 ```shell
-. $HOME/.asdf/asdf.sh
+. "$HOME/.asdf/asdf.sh"
 ```
 
 Completions must be configured manually with the following entry in your `.bash_profile`:
 
 ```shell
-. $HOME/.asdf/completions/asdf.bash
+. "$HOME/.asdf/completions/asdf.bash"
+```
+
+:::
+
+::: details Bash & Homebrew
+
+Add `asdf.sh` to your `~/.bashrc` with:
+
+```shell
+echo -e "\n. \"$(brew --prefix asdf)/libexec/asdf.sh\"" >> ~/.bashrc
+```
+
+Completions will need to be [configured as per Homebrew's instructions](https://docs.brew.sh/Shell-Completion#configuring-completions-in-bash) or with the following:
+
+```shell
+echo -e "\n. \"$(brew --prefix asdf)/etc/bash_completion.d/asdf.bash\"" >> ~/.bashrc
 ```
 
 :::
@@ -85,14 +113,14 @@ If using **macOS Catalina or newer**, the default shell has changed to **ZSH**. 
 
 Add `asdf.sh` to your `~/.bash_profile` with:
 
-```shell:no-line-numbers
-echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ~/.bash_profile
+```shell
+echo -e "\n. \"$(brew --prefix asdf)/libexec/asdf.sh\"" >> ~/.bash_profile
 ```
 
 Completions will need to be [configured as per Homebrew's instructions](https://docs.brew.sh/Shell-Completion#configuring-completions-in-bash) or with the following:
 
-```shell:no-line-numbers
-echo -e "\n. $(brew --prefix asdf)/etc/bash_completion.d/asdf.bash" >> ~/.bash_profile
+```shell
+echo -e "\n. \"$(brew --prefix asdf)/etc/bash_completion.d/asdf.bash\"" >> ~/.bash_profile
 ```
 
 :::
@@ -118,7 +146,7 @@ source ~/.asdf/asdf.fish
 
 Completions must be configured manually with the following command:
 
-```shell:no-line-numbers
+```shell
 mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.config/fish/completions
 ```
 
@@ -128,7 +156,7 @@ mkdir -p ~/.config/fish/completions; and ln -s ~/.asdf/completions/asdf.fish ~/.
 
 Add `asdf.fish` to your `~/.config/fish/config.fish` with:
 
-```shell:no-line-numbers
+```shell
 echo -e "\nsource "(brew --prefix asdf)"/libexec/asdf.fish" >> ~/.config/fish/config.fish
 ```
 
@@ -150,7 +178,7 @@ Completions are automatically configured on installation by the AUR package.
 
 Add `asdf.elv` to your `~/.config/elvish/rc.elv` with:
 
-```shell:no-line-numbers
+```shell
 mkdir -p ~/.config/elvish/lib; ln -s ~/.asdf/asdf.elv ~/.config/elvish/lib/asdf.elv
 echo "\n"'use asdf _asdf; var asdf~ = $_asdf:asdf~' >> ~/.config/elvish/rc.elv
 echo "\n"'set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~' >> ~/.config/elvish/rc.elv
@@ -164,7 +192,7 @@ Completions are automatically configured.
 
 Add `asdf.elv` to your `~/.config/elvish/rc.elv` with:
 
-```shell:no-line-numbers
+```shell
 mkdir -p ~/.config/elvish/lib; ln -s (brew --prefix asdf)/libexec/asdf.elv ~/.config/elvish/lib/asdf.elv
 echo "\n"'use asdf _asdf; var asdf~ = $_asdf:asdf~' >> ~/.config/elvish/rc.elv
 echo "\n"'set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~' >> ~/.config/elvish/rc.elv
@@ -177,7 +205,7 @@ Completions are automatically configured.
 
 Add `asdf.elv` to your `~/.config/elvish/rc.elv` with:
 
-```shell:no-line-numbers
+```shell
 mkdir -p ~/.config/elvish/lib; ln -s /opt/asdf-vm/asdf.elv ~/.config/elvish/lib/asdf.elv
 echo "\n"'use asdf _asdf; var asdf~ = $_asdf:asdf~' >> ~/.config/elvish/rc.elv
 echo "\n"'set edit:completion:arg-completer[asdf] = $_asdf:arg-completer~' >> ~/.config/elvish/rc.elv
@@ -191,7 +219,7 @@ Completions are automatically configured.
 Add the following to `~/.zshrc`:
 
 ```shell
-. $HOME/.asdf/asdf.sh
+. "$HOME/.asdf/asdf.sh"
 ```
 
 **OR** use a ZSH Framework plugin like [asdf for oh-my-zsh](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/asdf) which will source this script and setup completions.
@@ -237,7 +265,107 @@ Add the following to `~/.zshrc`:
 Completions are placed in a ZSH friendly location, but [ZSH must be configured to use the autocompletions](https://wiki.archlinux.org/index.php/zsh#Command_completion).
 :::
 
+::: details PowerShell Core & Git
+
+Add the following to `~/.config/powershell/profile.ps1`:
+
+```shell
+. "$HOME/.asdf/asdf.ps1"
+```
+
+:::
+
+::: details PowerShell Core & Homebrew
+
+Add `asdf.sh` to your `~/.config/powershell/profile.ps1` with:
+
+```shell
+echo -e "\n. \"$(brew --prefix asdf)/libexec/asdf.ps1\"" >> ~/.config/powershell/profile.ps1
+```
+
+:::
+
+::: details PowerShell Core & Pacman
+
+Add the following to `~/.config/powershell/profile.ps1`:
+
+```shell
+. /opt/asdf-vm/asdf.ps1
+```
+
+:::
+
+::: details Nushell & Git
+
+Add `asdf.nu` to your `~/.config/nushell/config.nu` with:
+
+```shell
+"\n$env.ASDF_DIR = ($env.HOME | path join '.asdf')\n source " + ($env.HOME | path join '.asdf/asdf.nu') | save --append $nu.config-path
+```
+
+Completions are automatically configured
+:::
+
+::: details Nushell & Homebrew
+
+Add `asdf.nu` to your `~/.config/nushell/config.nu` with:
+
+```shell
+"\n$env.ASDF_DIR = (brew --prefix asdf | str trim | into string | path join 'libexec')\n source " +  (brew --prefix asdf | str trim | into string | path join 'libexec/asdf.nu') | save --append $nu.config-path
+```
+
+Completions are automatically configured
+:::
+
+::: details Nushell & Pacman
+
+Add `asdf.nu` to your `~/.config/nushell/config.nu` with:
+
+```shell
+"\n$env.ASDF_DIR = '/opt/asdf-vm/'\n source /opt/asdf-vm/asdf.nu" | save --append $nu.config-path
+```
+
+Completions are automatically configured.
+:::
+
+::: details POSIX Shell & Git
+
+Add the following to `~/.profile`:
+
+```shell
+export ASDF_DIR="$HOME/.asdf"
+. "$HOME/.asdf/asdf.sh"
+```
+
+:::
+
+::: details POSIX Shell & Homebrew
+
+Add `asdf.sh` to your `~/.profile` with:
+
+```shell
+echo -e "\nexport ASDF_DIR=\"$(brew --prefix asdf)/libexec/asdf.sh\"" >> ~/.profile
+echo -e "\n. \"$(brew --prefix asdf)/libexec/asdf.sh\"" >> ~/.profile
+```
+
+:::
+
+::: details POSIX Shell & Pacman
+
+Add the following to `~/.profile`:
+
+```shell
+export ASDF_DIR="/opt/asdf-vm"
+. /opt/asdf-vm/asdf.sh
+```
+
+:::
+
 `asdf` scripts need to be sourced **after** you have set your `$PATH` and **after** you have sourced your framework (oh-my-zsh etc).
+
+::: warning
+On macOS, starting a Bash or Zsh shell automatically calls a utility called `path_helper`. `path_helper` can rearrange items in `PATH` (and `MANPATH`), causing inconsistent behavior for tools that require specific ordering. To workaround this, `asdf` on macOS defaults to forcily adding its `PATH`-entries to the front (taking highest priority). This is controllable with the `ASDF_FORCE_PREPEND` variable.
+:::
 
 Restart your shell so that `PATH` changes take effect. Opening a new terminal tab will usually do it.
 
@@ -255,16 +383,17 @@ For demonstration purposes we will install & set [Node.js](https://nodejs.org/) 
 
 Each plugin has dependencies so we need to check the plugin repo where they should be listed. For `asdf-nodejs` they are:
 
-| OS             | Dependency Installation                 |
-| -------------- | --------------------------------------- |
-| Linux (Debian) | `apt-get install dirmngr gpg curl gawk` |
-| macOS          | `brew install gpg gawk`                 |
+| OS                             | Dependency Installation                 |
+| ------------------------------ | --------------------------------------- |
+| Debian                         | `apt-get install dirmngr gpg curl gawk` |
+| CentOS/ Rocky Linux/ AlmaLinux | `yum install gnupg2 curl gawk`          |
+| macOS                          | `brew install gpg gawk`                 |
 
 We should install dependencies first as some Plugins have post-install hooks.
 
 ### Install the Plugin
 
-```shell:no-line-numbers
+```shell
 asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 ```
 
@@ -276,7 +405,7 @@ We can see which versions are available with `asdf list all nodejs` or a subset 
 
 We will just install the `latest` available version:
 
-```shell:no-line-numbers
+```shell
 asdf install nodejs latest
 ```
 
@@ -296,7 +425,7 @@ Without a version listed for a tool execution of the tool will **error**. `asdf 
 
 Global defaults are managed in `$HOME/.tool-versions`. Set a global version with:
 
-```shell:no-line-numbers
+```shell
 asdf global nodejs latest
 ```
 
@@ -310,9 +439,9 @@ Some OSs already have tools installed that are managed by the system and not `as
 
 ### Local
 
-Local versions are defined in the `$PWD/.tool-versions` file (your current working directory). Usually, this will be the Git respository for a project. When in your desired directory execute:
+Local versions are defined in the `$PWD/.tool-versions` file (your current working directory). Usually, this will be the Git repository for a project. When in your desired directory execute:
 
-```shell:no-line-numbers
+```shell
 asdf local nodejs latest
 ```
 

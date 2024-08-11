@@ -12,14 +12,14 @@
 
 一个 `.tool-versions` 文件示例如下所示：
 
-```:no-line-numbers
+```
 ruby 2.5.3
 nodejs 10.15.0
 ```
 
 你也可以包含注释在里面：
 
-```:no-line-numbers
+```
 ruby 2.5.3 # 这是一个注释
 # 这是另一个注释
 nodejs 10.15.0
@@ -29,14 +29,14 @@ nodejs 10.15.0
 
 - `10.15.0` - 实际的版本号。支持下载二进制文件的插件将会下载二进制文件。
 - `ref:v1.0.2-a` 或者 `ref:39cb398vb39` - 指定标签/提交/分支从 github 下载并编译。
-- `path:/src/elixir` - 要使用的工具的自定义编译版本的路径。这种方式供语言开发者等使用。
+- `path:~/src/elixir` - 要使用的工具的自定义编译版本的路径。这种方式供语言开发者等使用。
 - `system` - 此关键字会导致 asdf 传递系统上未由 asdf 管理的工具版本。
 
 ::: tip 提示
 
 多版本可以通过空格将它们分隔开来。比如，使用 Python `3.7.2` 回退到 Python `2.7.15` 最后回退到 `system` Python，可以将以下行的内容添加到 `.tool-versions` 文件中。
 
-```:no-line-numbers
+```
 python 3.7.2 2.7.15 system
 ```
 
@@ -52,11 +52,13 @@ python 3.7.2 2.7.15 system
 
 给你的家目录添加一个 `.asdfrc` 文件然后 asdf 将会使用这个文件所指定的配置。下面的文件展示了所需的格式，其中包含用于演示的默认值：
 
-```:no-line-numbers
+```txt
 legacy_version_file = no
 use_release_candidates = no
 always_keep_download = no
 plugin_repository_last_check_duration = 60
+disable_plugin_short_name_repository = no
+concurrency = auto
 ```
 
 ### `legacy_version_file`
